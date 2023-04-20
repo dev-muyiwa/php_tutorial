@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Listing;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,33 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('listings', [
+        'heading' => 'Latest Listing',
+        'listings' => Listing::all()
+    ]);
 });
+
+Route::get('/listings/{id}', function ($id) {
+    return view('listing', [
+        'listing' => Listing::find($id)
+    ]);
+});
+
+// For custom headers
+//Route::get('hello', function () {
+//    return response('<h1>Hello World!</h1>', 200)
+//        ->header('Content-Type', 'text/plain')
+//        ->header('foo', 'bar');
+//});
+//
+//
+//// Wild cards with regex that accepts only numbers
+//Route::get('/posts/{id}', function ($id) {
+////    dd($id);
+////    ddd($id);
+//    return response('Post ' . $id);
+//})->where('id', '[0-9]+');
+//
+//Route::get('/search', function (Request $request) {
+//    return $request->name.' '.$request->city;
+//});
